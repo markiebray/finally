@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0f14;
+  --color-panel: #10161e;
+  --color-raised: #161e29;
+  --color-line: #222c3a;
+  --color-muted: #6b7a8f;
+  --color-text: #d5dde8;
+  --color-up: #2fd07f;
+  --color-down: #ff5468;
+  --color-accent: #ecad0a;
+  --color-blue: #209dd7;
+  --color-purple: #753991;
+  --font-mono: var(--font-data), ui-monospace, monospace;
+  --font-display: var(--font-head), ui-sans-serif, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(32, 157, 215, 0.08), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
+  background-size: auto, 24px 24px, 24px 24px;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@keyframes flash-up {
+  from { background-color: rgba(47, 208, 127, 0.35); }
+  to { background-color: transparent; }
+}
+
+@keyframes flash-down {
+  from { background-color: rgba(255, 84, 104, 0.35); }
+  to { background-color: transparent; }
+}
+
+.flash-up { animation: flash-up 500ms ease-out; }
+.flash-down { animation: flash-down 500ms ease-out; }
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.pulse-dot { animation: pulse-dot 1.2s ease-in-out infinite; }
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.rise { animation: rise 400ms ease-out both; }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}

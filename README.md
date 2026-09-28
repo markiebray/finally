@@ -37,6 +37,20 @@ docker run -v finally-data:/app/db -p 8000:8000 --env-file .env finally
 # Open http://localhost:8000
 ```
 
+## Docker & Scripts
+
+The start/stop scripts wrap the Docker commands above. They are idempotent — safe to run repeatedly.
+
+| Platform | Start | Stop |
+|---|---|---|
+| macOS/Linux | `./scripts/start_mac.sh` | `./scripts/stop_mac.sh` |
+| Windows (PowerShell) | `.\scripts\start_windows.ps1` | `.\scripts\stop_windows.ps1` |
+
+- Start builds the `finally` image if it doesn't exist (force a rebuild with `--build` / `-Build`), runs a container named `finally` on port 8000, and opens the browser.
+- Stop removes the container but keeps the `finally-data` volume, so your portfolio persists.
+- Alternatively: `docker compose up --build` / `docker compose down`.
+- To reset all data: `docker volume rm finally-data`.
+
 ## Environment Variables
 
 | Variable | Required | Description |

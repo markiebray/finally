@@ -1,0 +1,31 @@
+# The app service must not be named "app": .app is HSTS-preloaded, so Chromium forces https://app.
+services:
+  finally-app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    environment:
+      LLM_MOCK: "true"
+      MASSIVE_API_KEY: ""
+    tmpfs:
+      - /app/db
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+      start_period: 90s
+
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.63.0-noble
+    working_dir: /tests
+    volumes:
+      - .:/tests
+      - /tests/node_modules
+    environment:
+      BASE_URL: http://finally-app:8000
+      CI: "true"
+    command: sh -c "npm ci && npx playwright test"
+    depends_on:
+      finally-app:
+        condition: service_healthy
